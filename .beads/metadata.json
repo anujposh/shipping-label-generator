@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "shipping_label_generator",
+  "project_id": "f0caae8e-dbb4-4a20-94a4-eb892fc2b58c"
+}
