@@ -5,7 +5,9 @@ Standalone project that provides a secure, vendor-facing public-link workflow fo
 ## What it is
 
 - Internal staff create time-boxed, usage-limited vendor links.
-- Vendors open a `/l/{token}` URL, enter destination shipment details, view carrier rates, and download a shipping label.
+- Vendors open a `/l/{token}` URL without an account, enter their pickup/contact details, destination, and package details, view carrier rates, and download a shipping label.
+- Vendor details are saved only against that private link for reuse and snapshotted on each shipment. The submitted identity becomes the carrier shipper and the FedEx exporter for international labels.
+- FedEx international commodity and documents-only shipments support multi-commodity customs, generated/uploaded trade documents, ETD, and non-guaranteed duty/tax estimates; see [FedEx International Shipping](docs/fedex-international.md).
 - Carrier account credentials, rate shopping, and shipment creation now run in the SLG API itself: `slg-api` owns the carrier clients and serves the internal seam (`/internal/shipping/*`) locally. It calls its own seam via `SLG_INTERNAL_API_BASE_URL` (`http://127.0.0.1:3010` in `.env.example`). The main posh backend no longer mounts this seam; SLG carrier credentials are configured in the `slg-api` runtime environment, while unrelated backend carrier workflows remain unchanged.
 - Tenant isolation is enforced: vendors cannot access internal app data, carrier credentials, other vendors' shipments, or administrative functions.
 
@@ -41,12 +43,22 @@ Run all commands in this README from the project root.
    npm --prefix app run dev
    ```
 
+## Notification emails
+
+When a vendor checks **Add shipment notifications** on the shipping options page, they can enter a recipient email, shipper email (prefilled from their vendor contact email), an additional custom email, and an optional personalized message. After the label is created, `slg-api` sends one plain-text email via SMTP to **all filled addresses** (deduplicated) with the carrier, service, tracking number, ship-to summary, and personal message. Delivery is best-effort: mail failures never affect label creation; every attempt is audited (`notification_email_sent` / `notification_email_failed` / `notification_email_skipped` when SMTP is not configured).
+
+SMTP settings (all optional; empty `SMTP_HOST` disables sending): `SMTP_HOST`, `SMTP_PORT` (default 587), `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` — see `api/.env.example`.
+
+## Companies
+
+Admin can manage **Companies** (name + ship-from address) from the admin sidebar. When creating a vendor link, selecting a company sets the link's ship-from record from the company's address; the link is stored with `company_id`. Links without a company keep the legacy free-form ship-from fields.
+
 ## Security model summary
 
 - **Token design**: 256-bit random tokens generated with `crypto.randomBytes(32)`. Only the SHA-256 hash is stored in `slg_links.token_hash`. Tokens are single-purpose and looked up by hash.
-- **Link lifecycle**: Each link has `expires_at`, `max_uses`, `use_count`, and `revoked_at`. Expired, revoked, or exhausted links return `410`/`403` and are audited.
+- **Link lifecycle**: Each link has `expires_at`, `max_uses`, `use_count`, and `revoked_at`. Expired or revoked links return `410`/`403`; exhausted links reject new rates and shipments with `403` while retaining scoped shipment history and label downloads.
 - **Tenant isolation**: All vendor routes require a valid link token and every query is scoped to `link_id`/`vendor_id`.
-- **Ship-from pinning**: Origin address is pinned server-side per link; vendors only supply destination details.
+- **Vendor-submitted origin**: Vendors directly provide and validate their pickup/contact identity through the private link. Reusable details are scoped to that link, each shipment preserves its own snapshot, and submitted details are authoritative for carrier shipper and FedEx exporter data.
 - **Rate limiting**: Per-IP and per-token rate limits mirror the backend `rate-limiter-flexible` pattern.
 - **Audit trail**: All security-relevant events are recorded in `slg_audit_events` (link create/revoke/expiry, submission, rates, label, admin login success/failure).
 - **Carrier secrets live in slg-api**: `slg-api` now owns the `/internal/shipping/*` seam and the carrier clients. SLG carrier credential variables (`FEDEX_*`, `UPS_*`, `USPS_*`, `STAMPS_*`) are configured in the slg-api runtime env (`api/.env` in development) and are never exposed to `slg-app` or vendors; the posh backend retains separate credentials for unrelated workflows. The seam client uses a shared secret (`SLG_INTERNAL_API_KEY`) against the local seam at `SLG_INTERNAL_API_BASE_URL`. For credential-free non-production development, `SLG_INTERNAL_FAKE_CARRIERS=true` substitutes deterministic fake carriers.
@@ -59,9 +71,9 @@ npm --prefix api run unit
 npm --prefix api run integration
 ```
 
-E2E tests (later lane):
+E2E UI tests (mocked public API responses):
 
 ```bash
-npm --prefix tests/e2e run test
+cd app
+npx playwright test --reporter=line
 ```
-# shipping-label-generator

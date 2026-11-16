@@ -4,3 +4,34 @@
 *.db
 .beads-credential-key
 .beads/proxieddb/
+
+# Secrets / environment
+.env
+.env.local
+.env.*.local
+*.env
+!.env.example
+api/.env
+app/.env.local
+opencode_client_config/auth.json
+
+# Dependencies
+node_modules/
+
+# Build output
+api/dist/
+app/.next/
+app/out/
+app/.next/standalone/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+
+# Agent / tooling state
+.opencode/
+.playwright-cli/
+graphify-out/
+.beads/
+.dolt/

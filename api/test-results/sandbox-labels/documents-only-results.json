@@ -1,0 +1,68 @@
+{
+  "generatedAt": "2026-11-11T14:10:41.811Z",
+  "mode": "sandbox",
+  "scenario": {
+    "name": "documents-only",
+    "withEtdUpload": false,
+    "withDutyEstimate": false
+  },
+  "credentialsIncluded": false,
+  "rawCarrierResponsesIncluded": false,
+  "preflight": {
+    "ok": true
+  },
+  "summary": {
+    "labelsCreated": 1,
+    "labelsFailed": 0,
+    "allPassed": true
+  },
+  "internalApiAuthentication": {
+    "missingBearerServices": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "wrongBearerServices": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "wrongBearerCreate": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "validBearerServices": {
+      "ok": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    }
+  },
+  "fedexInternational": {
+    "scenario": "documents-only",
+    "withEtdUpload": false,
+    "withDutyEstimate": false,
+    "label": {
+      "supported": true,
+      "attempted": true,
+      "ok": true,
+      "httpStatus": 200,
+      "environment": "sandbox",
+      "environmentEvidence": "Carrier label metadata and exact sandbox-host preflight",
+      "trackingNumber": "794908826320",
+      "artifact": "api/test-results/sandbox-labels/fedex-documents-only-sandbox.pdf",
+      "bytes": 96252,
+      "sha256": "db80ab0f8a76f5429ed5a0c3f5b8154aca4dacd86c720ddf388aa540cd64b3a0",
+      "pdfPages": 4
+    },
+    "documents": [],
+    "dutyEstimate": {
+      "attempted": false,
+      "ok": false
+    },
+    "etdAttempt": {
+      "attempted": false,
+      "ok": false
+    }
+  }
+}

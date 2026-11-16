@@ -1,0 +1,130 @@
+{
+  "generatedAt": "2026-11-11T14:14:11.844Z",
+  "mode": "sandbox",
+  "scenario": {
+    "name": "international-us-ca",
+    "withEtdUpload": true,
+    "withDutyEstimate": false
+  },
+  "credentialsIncluded": false,
+  "rawCarrierResponsesIncluded": false,
+  "preflight": {
+    "ok": true
+  },
+  "summary": {
+    "labelsCreated": 1,
+    "labelsFailed": 0,
+    "allPassed": true
+  },
+  "internalApiAuthentication": {
+    "missingBearerServices": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "wrongBearerServices": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "wrongBearerCreate": {
+      "ok": true,
+      "expectedStatus": 404,
+      "actualStatus": 404
+    },
+    "validBearerServices": {
+      "ok": true,
+      "expectedStatus": 200,
+      "actualStatus": 200
+    }
+  },
+  "fedexInternational": {
+    "scenario": "international-us-ca",
+    "withEtdUpload": true,
+    "withDutyEstimate": false,
+    "label": {
+      "supported": true,
+      "attempted": true,
+      "ok": true,
+      "httpStatus": 200,
+      "environment": "sandbox",
+      "environmentEvidence": "Carrier label metadata and exact sandbox-host preflight",
+      "trackingNumber": "794908829308",
+      "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox.pdf",
+      "bytes": 85025,
+      "sha256": "cc5f3399432d3cb46a5cfd9f1dfbf0ce9ba247e6ae0653d095f8fbf937190681",
+      "pdfPages": 1
+    },
+    "documents": [
+      {
+        "documentType": "CERTIFICATE_OF_ORIGIN",
+        "docType": "PDF",
+        "fileName": "CERTIFICATE_OF_ORIGIN-794908829308.pdf",
+        "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-CERTIFICATE_OF_ORIGIN-794908829308.pdf",
+        "bytes": 6848,
+        "sha256": "21644b47ef074521c6b5b1458d70ce8c9a616567433aeb60d8542aad4f745f36",
+        "source": "FEDEX_GENERATED"
+      },
+      {
+        "documentType": "COMMERCIAL_INVOICE",
+        "docType": "PDF",
+        "fileName": "COMMERCIAL_INVOICE-794908829308.pdf",
+        "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-COMMERCIAL_INVOICE-794908829308.pdf",
+        "bytes": 147971,
+        "sha256": "76223a10310f15666b16ec0689014ef2a8d3384bc1a3523cf92d2209f25f4e32",
+        "source": "FEDEX_GENERATED"
+      }
+    ],
+    "dutyEstimate": {
+      "attempted": false,
+      "ok": false
+    },
+    "etdAttempt": {
+      "attempted": true,
+      "ok": true,
+      "label": {
+        "supported": true,
+        "attempted": true,
+        "ok": true,
+        "httpStatus": 200,
+        "environment": "sandbox",
+        "environmentEvidence": "Carrier label metadata and exact sandbox-host preflight",
+        "trackingNumber": "794908829400",
+        "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-etd.pdf",
+        "bytes": 85026,
+        "sha256": "d13756156c0158481e376f1d772f950ec212cb8bd7aaa32b599a5db2d66f9d2e",
+        "pdfPages": 1
+      },
+      "documents": [
+        {
+          "documentType": "COMMERCIAL_INVOICE",
+          "docType": "PDF",
+          "fileName": "commercial-invoice-upload.pdf",
+          "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-etd-COMMERCIAL_INVOICE-794908829400.pdf",
+          "bytes": 948,
+          "sha256": "c3150e1edebde4195fda71641e79c2e62733d22496745ec13658d9fbb5552d5d",
+          "source": "UPLOADED",
+          "uploadStatus": "ATTACHED"
+        },
+        {
+          "documentType": "CERTIFICATE_OF_ORIGIN",
+          "docType": "PDF",
+          "fileName": "CERTIFICATE_OF_ORIGIN-794908829400.pdf",
+          "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-etd-CERTIFICATE_OF_ORIGIN-794908829400.pdf",
+          "bytes": 6848,
+          "sha256": "599b18f427fe8f6878379cbff430965462bbadb0f92ee200d148173287ed7b77",
+          "source": "FEDEX_GENERATED"
+        },
+        {
+          "documentType": "COMMERCIAL_INVOICE",
+          "docType": "PDF",
+          "fileName": "COMMERCIAL_INVOICE-794908829400.pdf",
+          "artifact": "api/test-results/sandbox-labels/fedex-international-us-ca-sandbox-etd-COMMERCIAL_INVOICE-794908829400.pdf",
+          "bytes": 147972,
+          "sha256": "3bd9e7518dd7b71cc4d7e148fef6454f44ba30b22959685611aab07c11e4189f",
+          "source": "FEDEX_GENERATED"
+        }
+      ]
+    }
+  }
+}

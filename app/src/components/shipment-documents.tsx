@@ -1,0 +1,5 @@
+"use client";
+export type DocumentMetadata = { id?: string; fileName: string; documentType?: string; source?: string; uploadStatus?: string };
+export function ShipmentDocuments({ documents = [], warnings = [], base }: { documents?: DocumentMetadata[]; warnings?: string[]; base: string }) {
+  return <>{warnings.length > 0 && <div className="notice" role="alert"><strong>Your label was created. Do not create another label.</strong><p>Some trade documents need attention. Contact your shipping team before dispatch.</p><ul>{warnings.map((warning, i) => <li key={i}>{warning}</li>)}</ul></div>}{documents.length > 0 && <div className="shipment-documents"><h3>Trade documents</h3><ul>{documents.map((doc, i) => <li key={doc.id ?? i}>{doc.id ? <a href={`${base}/document?documentId=${encodeURIComponent(doc.id)}`} download>{doc.fileName}</a> : doc.fileName} <span className="text-sm">{doc.source === "UPLOADED" ? "Uploaded" : "Generated"}{doc.uploadStatus ? ` / ${doc.uploadStatus.toLowerCase()}` : ""}</span>{doc.uploadStatus === "FAILED" && <p>Upload failed. Your label still exists. Ask your shipping team to resolve the document upload.</p>}</li>)}</ul></div>}</>;
+}

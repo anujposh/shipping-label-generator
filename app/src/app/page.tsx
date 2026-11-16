@@ -1,0 +1,1 @@
+export default function Page() { return <main className="vendor"><div className="brand">DISPATCH / SHIPPING</div><section className="panel"><h1>A simpler send-off.</h1><p>Open the private shipping link your contact shared with you to create a label.</p><a href="/admin/login">Internal team sign in</a></section></main>; }
